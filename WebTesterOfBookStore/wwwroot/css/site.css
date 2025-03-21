@@ -1,0 +1,243 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+.form-control, .btn {
+    border-radius: 4px;
+}
+
+.dropdown-toggle {
+    text-align: left;
+    background-color: white;
+    font-weight: normal;
+    width: 100%;
+}
+
+.seed-input .form-control {
+    width: 170px;
+}
+
+.seed-input .refresh-btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.likes-slider {
+    width: 100%;
+}
+
+.form-range {
+    height: 10px;
+}
+
+    .form-range::-webkit-slider-thumb {
+        background: #0d6efd;
+        height: 16px;
+        width: 16px;
+    }
+
+    .form-range::-moz-range-thumb {
+        background: #0d6efd;
+        height: 16px;
+        width: 16px;
+    }
+
+#rating {
+    width: 40px;
+    text-align: center;
+}
+
+.view-toggle .btn {
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+}
+
+.book-table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.table th {
+    font-weight: 600;
+    border-top: none;
+    border-bottom: 1px solid #e9ecef;
+    padding: 1rem;
+}
+
+.table td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.book-row {
+    cursor: pointer;
+}
+
+    .book-row.selected {
+        background-color: #e7f1ff !important;
+    }
+
+    .book-row:hover {
+        background-color: #f8f9fa;
+    }
+
+.toggle-details {
+    background: transparent;
+    border: none;
+    padding: 0.25rem;
+    color: #6c757d;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+}
+
+    .toggle-details:focus {
+        box-shadow: none;
+    }
+
+.book-details {
+    background-color: #f9fafb;
+    border-top: 1px solid #e9ecef;
+}
+
+.book-cover {
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.likes-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: #0d6efd;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+}
+
+    .likes-badge i {
+        margin-left: 5px;
+    }
+
+.book-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.book-format {
+    font-size: 1rem;
+    font-weight: normal;
+    color: #6c757d;
+}
+
+.book-author {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.book-publisher {
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+.review-heading {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.review-item {
+    margin-bottom: 1.5rem;
+}
+
+.review-text {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.reviewer {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+@media (max-width: 767.98px) {
+    .book-details .row {
+        flex-direction: column;
+    }
+
+    .book-details .col-md-2 {
+        margin-bottom: 1.5rem;
+    }
+}
+
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    background-color: #6c757d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    margin-top: 5px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.dropdown-item {
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+    .dropdown-item:hover {
+        background-color: #f1f1f1;
+    }
