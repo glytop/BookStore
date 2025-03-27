@@ -1,104 +1,55 @@
-﻿
-<div class="container py-4">
+﻿<div class="container py-4">
     <div class="row mb-4 align-items-center">
-        <div class="col-md-3 col-sm-6 mb-3 mb-md-0">
-            <div class="custom-dropdown">
-                <button class="dropdown-toggle">English (USA)</button>
-                <ul class="dropdown-menu">
-                    <li><button class="dropdown-item">English (USA)</button></li>
-                    <li><button class="dropdown-item">Русский (Russia)</button></li>
-                    <li><button class="dropdown-item">Deutsch (Germany)</button></li>
-                </ul>
-            </div>
+        <div class="col-md-auto">
+            <p class="me-2">Choose region: </p>
+            <select name="country" id="countrySelect" class="form-select" aria-label="Default select example">
+                <option value="">Select country</option>
+                <option value="en_US;+1(###) ###-##-##">USA</option>
+                <option value="nl;+49(###) ##-###">German</option>
+                <option value="fr;+33(###) ###-###">French</option>
+            </select>
         </div>
 
-        <div class="col-md-3 col-sm-6 mb-3 mb-md-0">
-            <div class="input-group seed-input">
-                <input type="number" class="form-control" id="seed" placeholder="Seed" value="12345">
-                <button class="btn btn-outline-secondary refresh-btn" type="button">
-                    <i class="bi bi-shuffle"></i>
-                </button>
-            </div>
+        <div class="col-md-auto">
+            <p class="me-2">Seed</p>
+            <input id="seedInput" type="number" min="0" max="999999999" value="0" class="me-2">
+            <button class="btn btn-outline-secondary refresh-btn" id="randomSeedButton">
+                <i class="bi bi-shuffle"></i>
+            </button>
         </div>
 
-        <div class="col-md-3 col-sm-6 mb-3 mb-md-0">
-            <div class="likes-slider d-flex align-items-center">
-                <label class="me-2">Likes:</label>
-                <input type="range" class="form-range flex-grow-1" id="likesRange" min="0" max="10" step="0.1" value="3.7">
-                <span class="ms-2" id="rating">3.7</span>
-            </div>
+        <div class="col-md-auto">
+            <p class="me-2">Likes</p>
+            <input value="0" name="rangeValue" id="rangeInput" type="range" class="form-range me-2" min="0" max="10" step="0.1">
+            <input value="0" type="number" id="numberInput" class="form-control" min="0" max="10" step="0.1" placeholder="0-10">
         </div>
 
-        <div class="col-md-3 col-sm-6 mb-3 mb-md-0">
-            <div class="d-flex align-items-center">
-                <label class="me-2">Reviews:</label>
-                <input type="number" class="form-control" id="reviews" placeholder="Reviews" value="4.7" step="0.1" min="0" max="10">
-            </div>
+        <div class="col-md-auto">
+            <label class="me-2 mb-3">Reviews</label>
+            <input type="number" class="form-control" id="reviews" placeholder="Reviews" value="0" step="0.1" min="0" max="10">
         </div>
     </div>
+</div>
 
-    <div class="book-table">
-        <table class="table table-hover mb-0">
-            <thead>
-                <tr>
-                    <th width="5%"></th>
-                    <th width="5%">#</th>
-                    <th width="15%">ISBN</th>
-                    <th width="40%">Title</th>
-                    <th width="25%">Author</th>
-                    <th width="15%">Publisher</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Books will be added here -->
-                <tr class="book-row" data-book-id="1">
-                    <td>
-                        <button class="btn btn-sm toggle-details collapsed" data-bs-toggle="collapse" data-bs-target="#details-47">
-                            <i class="bi bi-caret-up-fill"></i>
-                        </button>
-                    </td>
-                    <td>1</td>
-                    <td>978-3-16-148410-0</td>
-                    <td>The Silent Echo</td>
-                    <td>Emily Johnson</td>
-                    <td>Riverdale Press</td>
-                </tr>
-                <tr class="collapse" id="details-1">
-                    <td colspan="5" class="p-0">
-                        <div class="book-details p-4">
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <img src="https://placehold.co/200x300/e9ecef/495057?text=The+Silent+Echo" class="img-fluid book-cover" alt="Book cover">
-                                    <div class="mt-3 text-center">
-                                        <span class="likes-badge">
-                                            3.7 <i class="bi bi-hand-thumbs-up"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-md-10">
-                                    <h3 class="book-title">The Silent Echo <span class="book-format">(Paperback)</span></h3>
-                                    <p class="book-author">By Emily Johnson</p>
-                                    <p class="book-publisher">Riverdale Press, 2022</p>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table id="userTable" class="table">
+                <thead>
+                    <tr>
+                        <th width="5%"></th>
+                        <th width="5%">#</th>
+                        <th width="15%">ISBN</th>
+                        <th width="35%">Title</th>
+                        <th width="25%">Author</th>
+                        <th width="15%">Publisher</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
 
-                                    <div class="mt-4">
-                                        <h4 class="review-heading">Reviews (4)</h4>
-                                        <div class="review-item">
-                                            <p class="review-text">"A captivating novel that kept me engaged from beginning to end. The characters are well-developed and the plot is intriguing."</p>
-                                            <p class="reviewer">- Michael Smith</p>
-                                        </div>
-                                        <div class="review-item">
-                                            <p class="review-text">"Beautifully written with vivid descriptions and powerful storytelling. I couldn't put it down!"</p>
-                                            <p class="reviewer">- Sarah Johnson</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <!-- More books will be added dynamically -->
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
