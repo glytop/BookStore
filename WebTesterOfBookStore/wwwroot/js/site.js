@@ -1,27 +1,25 @@
 ﻿$(document).ready(function () {
-    var currentLanguage = "";
-    var currentSeed = parseInt($("#seedInput").val()) || 0;
-    var currentLikes = parseFloat($("#rangeInput").val()) || 0;
-    var currentReviews = parseFloat($("#reviews").val()) || 0;
-    var currentPage = 1;
-    var isLoading = false;
-
-    loadBooks(1, true);
+    let currentLanguage = "";
+    let currentSeed = parseInt($("#seedInput").val()) || 0;
+    let currentLikes = parseFloat($("#rangeInput").val()) || 0;
+    let currentReviews = parseFloat($("#reviews").val()) || 0;
+    let currentPage = 1;
+    let isLoading = false;
 
     $("#rangeInput").on('input', function () {
-        var likesValue = $(this).val();
+        let likesValue = $(this).val();
         $("#numberInput").val(likesValue);
         currentLikes = parseFloat(likesValue) || 0;
-        refreshBooks();
+        updateDynamicFields();
     });
 
     $("#reviews").on('change', function () {
         currentReviews = parseFloat($(this).val()) || 0;
-        refreshBooks();
+        updateDynamicFields();
     });
 
     $("#randomSeedButton").on('click', function () {
-        var randomSeed = Math.floor(Math.random() * 100000000);
+        let randomSeed = Math.floor(Math.random() * 100000000);
         $("#seedInput").val(randomSeed);
         currentSeed = randomSeed;
         refreshBooks();
@@ -43,15 +41,17 @@
                 isLoading = true;
                 currentPage++;
                 loadBooks(currentPage, false);
-                setTimeout(function () { isLoading = false; }, 500);
+                setTimeout(function () {
+                    isLoading = false;
+                }, 500);
             }
         }
     });
 
     $('body').on('click', '.toggle-details', function (e) {
         e.preventDefault();
-        var bookId = $(this).closest('.book-row').data('book-id');
-        var detailsRow = $(`#details-${bookId}`);
+        let bookId = $(this).closest('.book-row').data('book-id');
+        let detailsRow = $(`#details-${bookId}`);
 
         if (detailsRow.is(':visible')) {
             detailsRow.hide();
@@ -61,12 +61,13 @@
             $(".toggle-details").html('<i class="bi bi-chevron-down"></i>');
             detailsRow.show();
             $(this).html('<i class="bi bi-chevron-up"></i>');
+            updateDynamicFieldForBook(bookId);
         }
     });
 
     function loadBooks(page, clearExisting) {
-        var booksPerPage = page === 1 ? 20 : 10;
-        var startIndex = (page === 1) ? 1 : ((page - 1) * 10) + 11;
+        let booksPerPage = page === 1 ? 20 : 10;
+        let startIndex = (page === 1) ? 1 : ((page - 1) * 10) + 11;
 
         $.ajax({
             url: '/api/Books',
@@ -87,16 +88,16 @@
                 if (clearExisting) $("#userTableBody").empty();
 
                 books.forEach(function (book) {
-                    var reviewsHtml = Array.isArray(book.Reviews)
+                    let reviewsHtml = Array.isArray(book.Reviews)
                         ? book.Reviews.map(function (review) {
                             return `<div class="review-item">
                                 <p class="review-text">${review.Text}</p>
                                 <p class="reviewer">- ${review.Author}</p>
                             </div>`;
                         }).join('')
-                        : '<p>Пока нет отзывов.</p>';
+                        : '<p>No reviews yet.</p>';
 
-                    var bookRow = `
+                    let bookRow = `
                         <tr class="book-row" data-book-id="${book.Id}">
                             <td>
                                 <button class="toggle-details btn btn-sm btn-outline-secondary">
@@ -117,7 +118,7 @@
                                             <img src="https://placehold.co/200x300/e9ecef/495057?text=${encodeURIComponent(book.Title)}" class="img-fluid book-cover" alt="Book cover">
                                             <div class="mt-3 text-center">
                                                 <span class="likes-badge">
-                                                    ${book.Likes.toFixed(1)} <i class="bi bi-hand-thumbs-up"></i>
+                                                    ${book.Likes.toFixed(0)} <i class="bi bi-hand-thumbs-up"></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -136,13 +137,73 @@
                             </td>
                         </tr>
                     `;
-
                     $("#userTableBody").append(bookRow);
                 });
             },
         });
     }
 
+    function updateDynamicFields() {
+        $('.book-row').each(function () {
+            let bookId = $(this).data('book-id');
+            let detailsRow = $(`#details-${bookId}`);
+            if (detailsRow.is(':visible')) {
+                updateDynamicFieldForBook(bookId);
+            }
+        });
+    }
+
+    function updateDynamicFieldForBook(bookId) {
+        $.ajax({
+            url: '/api/Books',
+            type: 'GET',
+            data: {
+                language: currentLanguage,
+                seed: currentSeed,
+                likesAvg: currentLikes,
+                reviewsAvg: currentReviews,
+                count: 1,
+                startIndex: bookId
+            },
+            success: function (books) {
+                if (books && Array.isArray(books) && books.length > 0) {
+                    let book = books[0];
+                    let reviewsHtml = Array.isArray(book.Reviews)
+                        ? book.Reviews.map(function (review) {
+                            return `<div class="review-item">
+                                <p class="review-text">${review.Text}</p>
+                                <p class="reviewer">- ${review.Author}</p>
+                            </div>`;
+                        }).join('')
+                        : '<p>No reviews yet.</p>';
+
+                    let detailsHtml = `
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="https://placehold.co/200x300/e9ecef/495057?text=${encodeURIComponent(book.Title)}" class="img-fluid book-cover" alt="Book cover">
+                                <div class="mt-3 text-center">
+                                    <span class="likes-badge">
+                                        ${book.Likes.toFixed(0)} <i class="bi bi-hand-thumbs-up"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <h3 class="book-title">${book.Title} <span class="book-format">(Paperback)</span></h3>
+                                <p class="book-author">${book.Author}</p>
+                                <p class="book-publisher">${book.Publisher}</p>
+                                
+                                <div class="mt-4">
+                                    <h4 class="review-heading">Reviews (${book.Reviews.length})</h4>
+                                    ${reviewsHtml || '<p>No reviews yet.</p>'}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    $(`#details-${book.Id} .book-details`).html(detailsHtml);
+                }
+            },
+        });
+    }
     function refreshBooks() {
         currentPage = 1;
         loadBooks(1, true);
